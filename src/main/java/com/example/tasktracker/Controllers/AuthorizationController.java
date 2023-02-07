@@ -17,7 +17,7 @@ public class AuthorizationController {
 
 
 	@Autowired
-	private UserReposiroty usereposiroty;
+	private UserReposiroty userReposiroty;
 
 	@Autowired
 	private PasswordEncoder bCryptPasswordEncoder;
