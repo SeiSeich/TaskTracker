@@ -22,30 +22,17 @@ public class AuthorizationController {
 	@Autowired
 	private PasswordEncoder bCryptPasswordEncoder;
 
+/*
 	@GetMapping("/login")
 	public String login(User user, Model model){
 		model.addAttribute("user", user);
 		return "login";
 	}
+*/
 
 	@GetMapping("/registration")
 	public String registration(){
 		return "registration";
-	}
-
-	@PostMapping("/login")
-	public String logIn(User user, Model model){
-		User userByName = userReposiroty.findByUsername(user.getUsername());
-		User userByPassword = userReposiroty.findByPassword(user.getPassword());
-		if(userByName != null && userByPassword != null){
-			return "redirect:/tasks";
-		}
-		return "login";
-	}
-
-
-	public String encode(String password) {
-		return bCryptPasswordEncoder.encode(password);
 	}
 
 	@PostMapping("/registration")

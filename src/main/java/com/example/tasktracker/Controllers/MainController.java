@@ -18,7 +18,7 @@ public class MainController {
 			String name, Model model) {
 		model.addAttribute("some", "Lets code.");
 		model.addAttribute("name", name);
-		return "main";
+		return "home";
 	}
 
 

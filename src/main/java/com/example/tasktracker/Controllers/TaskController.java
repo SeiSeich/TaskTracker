@@ -3,7 +3,6 @@ package com.example.tasktracker.Controllers;
 
 import com.example.tasktracker.Model.Task;
 import com.example.tasktracker.Repositories.TaskReporitory;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/tasks")
+@RequestMapping("/main")
 public class TaskController {
 
 	@Autowired
@@ -23,7 +22,7 @@ public class TaskController {
 	public String findTask(Model model) {
 		Iterable<Task> tasks = taskReporitory.findAll();
 		model.addAttribute("tasks", tasks);
-		return "find";
+		return "main";
 	}
 
 	@PostMapping("/create")
@@ -34,7 +33,7 @@ public class TaskController {
 		taskReporitory.save(task);
 		Iterable<Task> tasks = taskReporitory.findAll();
 		model.addAttribute("tasks", tasks);
-		return "find";
+		return "main";
 	}
 
 	@PostMapping("/filter")
@@ -46,7 +45,7 @@ public class TaskController {
 			tasks = taskReporitory.findAll();
 		}
 		model.addAttribute("tasks", tasks);
-		return "find";
+		return "main";
 	}
 
 
