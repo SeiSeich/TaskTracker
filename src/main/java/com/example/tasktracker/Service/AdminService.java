@@ -7,7 +7,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminService {
 
-	@Autowired
-	private UserReposiroty userReposiroty;
+
+	private final UserReposiroty userReposiroty;
+
+	public AdminService(UserReposiroty userReposiroty) {
+		this.userReposiroty = userReposiroty;
+	}
 
 }

@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <script>
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+  </script>
 </head>
 <body>
-<div>
-  <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Logout">
-  </form>
-</div>
+<header>
+  <div id="logo">
+    Task Tracker
+  </div>
+  <div id="menu">
+    <a href="/">Main Page</a>
+    <a href="/main">Personal Page</a>
+    <div id="enter">
+      <div th:switch="${user}">
+        <div th:case="null">
+          <a href="/login">Войти</a>/<a href="/registration">Регистрация</a>
+        </div>
+        <div th:case="*">
+          <div id="navbar">
+            <span onclick="myFunction()" class="dropbtn" th:text="${user.username}"/>
+            <ul id="myDropdown" class="dropdown-content">
+              <li><a href="/logout">Выйти</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
 <div>
   <form method="post" action="/main/create">
     <input type="text" name="taskName" id="taskName" placeholder="Введите название задачи"/>
@@ -20,37 +47,37 @@
     <button type="submit">Добавить</button>
   </form>
 </div>
-<div>
-  <h3>Список задач</h3>
-  <form method="post" action="/main/filter">
-    <input type="text" name="name" placeholder="Введите имя для поиска">
-    <button type="submit">Найти</button>
-  </form>
-  <table>
-    <thead>
-    <tr>
-      <th>Номер задачи</th>
-      <th>Название</th>
-      <th>Суть</th>
-      <th>Дата создания задачи</th>
-      <th>Дедлайн</th>
-      <th>Приоритет</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="task : ${tasks}">
-      <td th:text="${task.id}"></td>
-      <td th:text="${task.taskName}"></td>
-      <td th:text="${task.notes}"></td>
-      <td th:text="${task.creationDate}"></td>
-      <td th:text="${task.targetDate}+' '+${task.targetTime}"></td>
-      <td th:text="${task.priority}"></td>
-    </tr>
-    </tbody>
-  </table>
-
-
-</div>
-
+    <div>
+      <h3>Список задач</h3>
+      <form method="post" action="/main/filter">
+        <input type="text" name="taskName" placeholder="Введите имя для поиска">
+        <input type="date" name="targetDate" placeholder="Введите день завершения задачи"/>
+        <input type="time" name="targetTime" placeholder="Введите время завершения задачи"/>
+        <input type="text" name="priority" placeholder="Введите приоритетность задачи">
+        <button type="submit">Найти</button>
+      </form>
+      <table>
+        <thead>
+        <tr>
+          <th>Номер задачи</th>
+          <th>Название</th>
+          <th>Суть</th>
+          <th>Дата создания задачи</th>
+          <th>Дедлайн</th>
+          <th>Приоритет</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${tasks}">
+          <td th:text="${task.id}"></td>
+          <td th:text="${task.taskName}"></td>
+          <td th:text="${task.notes}"></td>
+          <td th:text="${task.creationDate}"></td>
+          <td th:text="${task.targetDate}+' '+${task.targetTime}"></td>
+          <td th:text="${task.priority}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 </body>
 </html>

@@ -2,48 +2,38 @@ package com.example.tasktracker.Controllers;
 
 
 import com.example.tasktracker.Model.User;
-import com.example.tasktracker.Repositories.UserReposiroty;
-import com.example.tasktracker.Role.Role;
-import java.util.Collections;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.tasktracker.Service.AuthorizationService;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AuthorizationController {
 
+	private final AuthorizationService authorizationService;
 
-	@Autowired
-	private UserReposiroty userReposiroty;
-
-	@Autowired
-	private PasswordEncoder bCryptPasswordEncoder;
-
-/*
-	@GetMapping("/login")
-	public String login(User user, Model model){
-		model.addAttribute("user", user);
-		return "login";
+	public AuthorizationController(AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
 	}
-*/
+
+	@GetMapping("/login")
+	public String authorizationPage(@RequestParam(required = false) String error, @AuthenticationPrincipal User user, Model model, HttpServletRequest request) {
+		return authorizationService.checkAuthority(error, user, model, request);
+	}
 
 	@GetMapping("/registration")
-	public String registration(){
-		return "registration";
+	public String registration(@AuthenticationPrincipal User user, Model model){
+		return authorizationService.viewRegistrationPage(user, model);
 	}
 
 	@PostMapping("/registration")
-	public String addUser(User user, Model model){
-		user.setUsername(user.getUsername());
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setEmail(user.getEmail());
-		user.setPhoneNumber(user.getPhoneNumber());
-		user.setRole(Collections.singleton(Role.USER));
-		userReposiroty.save(user);
-		return "redirect:/login";
+	public String addUser(Model model, User user){
+		return authorizationService.save(user, model);
 	}
 
 }

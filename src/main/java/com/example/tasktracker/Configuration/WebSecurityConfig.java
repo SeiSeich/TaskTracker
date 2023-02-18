@@ -31,16 +31,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/").permitAll()
 				.antMatchers("/registration").not().fullyAuthenticated()
-				/*.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/tasks/**").hasRole("USER")*/
+				//.antMatchers("/admin/**").hasRole("ADMIN")
+				//.antMatchers("/main/**").hasRole("USER")
 				.anyRequest().authenticated()
 				.and()
 				.formLogin()
 				.loginPage("/login")
+				//.successForwardUrl("/main")
 				.defaultSuccessUrl("/main")
 				.permitAll()
 				.and()
 				.logout()
+				//.logoutSuccessUrl("/")
 				.permitAll();
 	}
 
