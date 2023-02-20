@@ -61,4 +61,31 @@ public class AuthorizationService {
 		return "redirect:/login";
 	}
 
+	private boolean matches(String oldPassword, String password){
+		return bCryptPasswordEncoder.matches(oldPassword, password);
+	}
+
+	private void updatePassword(User user){
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		userReposiroty.save(user);
+	}
+
+	public String changePass(String oldPassword, String newPassword, User user, Model model){
+		if(matches(oldPassword, user.getPassword())){
+			if(!newPassword.equals(oldPassword)){
+				user.setPassword(newPassword);
+				updatePassword(user);
+				model.addAttribute("user", user);
+				return "redirect:/main";
+			}else{
+				model.addAttribute("message", "Новый пароль должен отличаться.");
+				model.addAttribute("user", user);
+				return"/changePassword";
+			}
+		}else{
+			model.addAttribute("message", "Введите действующий пароль");
+			model.addAttribute("user", user);
+			return "/changePassword";
+		}
+	}
 }

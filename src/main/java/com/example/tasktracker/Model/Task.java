@@ -43,8 +43,7 @@ public class Task {
 	private String priority;
 
 	@Column(name = "active")
-	@ColumnDefault("true")
-	private boolean active;
+	private boolean active = true;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")

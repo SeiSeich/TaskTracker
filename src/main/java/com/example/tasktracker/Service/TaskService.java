@@ -28,6 +28,8 @@ public class TaskService {
 		task.setAuthor(user);
 		taskRepository.save(task);
 		model.addAttribute("user", user);
+		Iterable<Task> tasks = taskRepository.findByAuthor(user);
+		model.addAttribute("tasks", tasks);
 		return "main";
 	}
 
@@ -41,8 +43,6 @@ public class TaskService {
 				taskForm.getPriority() != null ? cb.equal(root.get("priority"), taskForm.getPriority()) : cb.and(),
 				cb.equal(root.get("author").get("id"), user.getId())
 		));
-
-
 		model.addAttribute("tasks", tasksFiltered);
 		model.addAttribute("user", user);
 		return "main";

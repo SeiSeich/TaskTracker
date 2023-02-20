@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <title>Title</title>
+  <script>
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+  </script>
+</head>
+<body>
+<header>
+  <div id="logo">
+    Task Tracker
+  </div>
+  <div id="menu">
+    <a href="/">Main Page</a>
+    <a href="/main">Personal Page</a>
+    <div id="enter">
+      <div th:switch="${user}">
+        <div th:case="null">
+          <a href="/login">Войти</a>/<a href="/registration">Регистрация</a>
+        </div>
+        <div th:case="*">
+          <div id="navbar">
+            <span onclick="myFunction()" class="dropbtn" th:text="${user.username}"/>
+            <ul id="myDropdown" class="dropdown-content">
+              <li><a href="/logout">Выйти</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div>
+  <h3>Список пользователей</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>User id</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Email</th>
+      <th>Phone number</th>
+      <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="usr : ${users}">
+      <td th:text="${usr.id}"></td>
+      <td th:text="${usr.username}"></td>
+      <td th:text="${usr.password}"></td>
+      <td th:text="${usr.email}"></td>
+      <td th:text="${usr.phoneNumber}"></td>
+      <td th:text="${usr.role}"></td>
+      <td><a th:href="@{admin/editUser/{id}(id = ${usr.username})}">Edit</a></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

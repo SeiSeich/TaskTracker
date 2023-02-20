@@ -35,5 +35,4 @@ public class AuthorizationController {
 	public String addUser(Model model, User user){
 		return authorizationService.save(user, model);
 	}
-
 }

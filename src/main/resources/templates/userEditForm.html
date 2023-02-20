@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <title>Title</title>
+  <script>
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+  </script>
+</head>
+<body>
+<header>
+  <div id="logo">
+    Task Tracker
+  </div>
+  <div id="menu">
+    <a href="/">Main Page</a>
+    <a href="/main">Personal Page</a>
+    <div id="enter">
+      <div th:switch="${user}">
+        <div th:case="null">
+          <a href="/login">Войти</a>/<a href="/registration">Регистрация</a>
+        </div>
+        <div th:case="*">
+          <div id="navbar">
+            <span onclick="myFunction()" class="dropbtn" th:text="${user.username}"/>
+            <ul id="myDropdown" class="dropdown-content">
+              <li><a href="/logout">Выйти</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<form th:action="@{/admin/editUser}" method="post">
+  <div><label>Username : <input type="text" name="username" id="username"  th:value="${usr.username}"/></label></div>
+  <div><label>Password : <input type="text" name="password" id="password"/></label></div>
+  <div><label>Email : <input type="text" name="email" id="email"  th:value="${usr.email}"/></label></div>
+  <div><label>Phone number : <input type="text" name="username" id="phoneNumber"  th:value="${usr.phoneNumber}"/></label></div>
+  <div>
+    <label>Roles : <input type="checkbox" name="roles"
+                          th:each="role : ${roles}"
+                          id="role" th:text="${role}"/></label>
+  </div>
+  <input type="hidden" name="id" th:value="${usr.id}"/>
+  <button type="submit">Edit</button>
+</form>
+</body>
+</html>
