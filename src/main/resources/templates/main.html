@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
@@ -45,7 +44,11 @@
     <input type="text" name="notes" id="notes" placeholder="Введите задачу"/>
     <input type="date" name="targetDate" id="targetDate" placeholder="Введите день завершения задачи"/>
     <input type="time" name="targetTime" id="targetTime" placeholder="Введите время завершения задачи"/>
-    <input type="text" name="priority" id="priority" placeholder="Обозначьте важность"/>
+    <label>Role:</label>
+      <select name="priority">
+        <option th:each="priority : ${priorities}"
+                th:value="${priority}" th:text="${priority}" >None/Low Priority/Medium Priority/High Priority</option>
+      </select>
     <button type="submit">Добавить</button>
   </form>
 </div>
@@ -55,13 +58,17 @@
         <input type="text" name="taskName" placeholder="Введите имя для поиска">
         <input type="date" name="targetDate" placeholder="Введите день завершения задачи"/>
         <input type="time" name="targetTime" placeholder="Введите время завершения задачи"/>
-        <input type="text" name="priority" placeholder="Введите приоритетность задачи">
+        <label>Role:</label>
+        <select name="priority">
+          <option th:each="priority : ${priorities}"
+                  th:value="${priority}" th:text="${priority}" >None/Low Priority/Medium Priority/High Priority</option>
+        </select>
         <button type="submit">Найти</button>
       </form>
       <table>
         <thead>
         <tr>
-          <th>Номер задачи</th>
+
           <th>Название</th>
           <th>Суть</th>
           <th>Дата создания задачи</th>
@@ -71,12 +78,15 @@
         </thead>
         <tbody>
         <tr th:each="task : ${tasks}">
-          <td th:text="${task.id}"></td>
+          <input type="hidden" name="id" th:value="${task.id}"/>
           <td th:text="${task.taskName}"></td>
           <td th:text="${task.notes}"></td>
           <td th:text="${task.creationDate}"></td>
           <td th:text="${task.targetDate}+' '+${task.targetTime}"></td>
           <td th:text="${task.priority}"></td>
+          <td><a th:href="@{/main/editTask/{id}(id = ${task.id})}">Edit task</a></td>
+          <td><a th:href="@{/main/deleteTask/{id}(id = ${task.id})}">Delete task</a></td>
+          <td></td>
         </tr>
         </tbody>
       </table>

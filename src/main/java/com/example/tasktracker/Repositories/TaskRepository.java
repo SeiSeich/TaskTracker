@@ -16,5 +16,8 @@ public interface TaskRepository extends CrudRepository<Task, Long>, JpaSpecifica
 
 	List<Task> findByPriority(String priority);
 
+	void deleteById(Integer id);
+
+	Task findById(Integer id);
 
 }

@@ -1,7 +1,7 @@
 package com.example.tasktracker.Model;
 
 
-import com.example.tasktracker.Role.Role;
+import com.example.tasktracker.Enums.Role;
 import java.util.Collection;
 import java.util.Set;
 import javax.persistence.CollectionTable;
@@ -116,6 +116,13 @@ public class User implements UserDetails {
 
 	public void setRole(Set<Role> role) {
 		this.role = role;
+	}
+
+	public boolean equals(User user){
+		if(this == user) return true;
+		if(user == null || getClass() != user.getClass()) return false;
+		return username.equals(user.getUsername()) && password.equals(user.getPassword()) &&
+				email.equals(user.getEmail()) && phoneNumber.equals(user.getPhoneNumber()) && role.equals(user.getRole());
 	}
 
 }

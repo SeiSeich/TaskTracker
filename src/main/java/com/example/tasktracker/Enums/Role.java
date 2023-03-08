@@ -1,4 +1,4 @@
-package com.example.tasktracker.Role;
+package com.example.tasktracker.Enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

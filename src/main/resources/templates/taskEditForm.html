@@ -34,32 +34,21 @@
     </div>
   </div>
 </header>
-<div>
-  <h3>Список пользователей</h3>
-  <table>
-    <thead>
-    <tr>
-      <th>User id</th>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Email</th>
-      <th>Phone number</th>
-      <th>Role</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="usr : ${users}">
-      <td th:text="${usr.id}"></td>
-      <td th:text="${usr.username}"></td>
-      <td th:text="${usr.password}"></td>
-      <td th:text="${usr.email}"></td>
-      <td th:text="${usr.phoneNumber}"></td>
-      <td th:text="${usr.role}"></td>
-      <td><a th:href="@{admin/editUser/{id}(id = ${usr.id})}">Edit</a></td>
-      <td><a th:href="@{admin/delete/{id}(id = ${usr.id})}">Delete</a></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<form th:action="@{/main/editTask/${task.id}}" method="post">
+  <div><label>Task name : <input type="text" name="taskName" id="taskName"  th:value="${task.taskName}"/></label></div>
+  <div><label>Notes : <input type="text" name="notes" id="notes" th:value="${task.notes}"/></label></div>
+  <div><label>Target Date : <input type="date" name="targetDate" id="targetDate"  th:value="${task.targetDate}"/></label></div>
+  <div><label>Target Time : <input type="time" name="targetTime" id="targetTime" th:value="${task.targetTime}"/></label></div>
+  <div class="form-group">
+    <label>Priority:</label>
+    <select name="priority">
+      <option th:each="priority : ${priorities}"
+              th:value="${priority}" th:text="${priority}" >None/Low Priority/Medium Priority/High Priority</option>
+    </select>
+  </div>
+  <input type="hidden" name="id" th:value="${task.id}"/>
+  <div><span th:text="${message}"/></div>
+  <button type="submit">Edit</button>
+</form>
 </body>
 </html>

@@ -1,9 +1,15 @@
 package com.example.tasktracker.Model;
 
 
+import com.example.tasktracker.DTO.TaskDTO;
+import com.example.tasktracker.Enums.Priority;
 import java.time.LocalDateTime;
+import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 
@@ -39,8 +44,9 @@ public class Task {
 	@Column(name = "target_time")
 	private String targetTime;
 
-	@Column(name = "priority")
-	private String priority;
+	@ElementCollection(targetClass = Priority.class, fetch = FetchType.EAGER)
+	@Enumerated(EnumType.STRING)
+	private Set<Priority> priority;
 
 	@Column(name = "active")
 	private boolean active = true;
@@ -52,7 +58,7 @@ public class Task {
 	public Task() {
 	}
 
-	public Task(String taskName, String notes, String targetDate, String targetTime, String priority, User user) {
+	public Task(String taskName, String notes, String targetDate, String targetTime, Set<Priority> priority, User user) {
 		this.author = user;
 		this.taskName = taskName;
 		this.notes = notes;
@@ -118,10 +124,11 @@ public class Task {
 	}
 
 	public String getPriority() {
-		return priority;
+		String levelOfPriority = priority.toString();
+		return levelOfPriority;
 	}
 
-	public void setPriority(String priority) {
+	public void setPriority(Set<Priority> priority) {
 		this.priority = priority;
 	}
 

@@ -2,8 +2,8 @@ package com.example.tasktracker.Service;
 
 
 import com.example.tasktracker.Model.User;
-import com.example.tasktracker.Repositories.UserReposiroty;
-import com.example.tasktracker.Role.Role;
+import com.example.tasktracker.Repositories.UserRepository;
+import com.example.tasktracker.Enums.Role;
 import java.util.Collections;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +15,13 @@ import org.springframework.ui.Model;
 public class AuthorizationService {
 
 
-	private final UserReposiroty userReposiroty;
+	private final UserRepository userRepository;
 
 	private final PasswordEncoder bCryptPasswordEncoder;
 
-	public AuthorizationService(UserReposiroty userReposiroty,
+	public AuthorizationService(UserRepository userRepository,
 			PasswordEncoder bCryptPasswordEncoder) {
-		this.userReposiroty = userReposiroty;
+		this.userRepository = userRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
@@ -57,7 +57,7 @@ public class AuthorizationService {
 		user.setEmail(user.getEmail());
 		user.setPhoneNumber(user.getPhoneNumber());
 		user.setRole(Collections.singleton(Role.USER));
-		userReposiroty.save(user);
+		userRepository.save(user);
 		return "redirect:/login";
 	}
 
@@ -67,7 +67,7 @@ public class AuthorizationService {
 
 	private void updatePassword(User user){
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		userReposiroty.save(user);
+		userRepository.save(user);
 	}
 
 	public String changePass(String oldPassword, String newPassword, User user, Model model){
